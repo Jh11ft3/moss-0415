@@ -1,27 +1,1179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Furry们的交流平台 </title>
-    <style>
-        img{
-            width: 300px;
-            height: 400px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlassCircle - 液态玻璃社交圈</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0071e3',
+            secondary: '#6366f1',
+            success: '#34d399',
+            danger: '#ef4444',
+            dark: 'rgba(17, 24, 39, 0.7)',
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+          },
         }
-    </style>
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .glass {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      }
+      .glass-dark {
+        background: rgba(17, 24, 39, 0.6);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .liquid-transition {
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease forwards;
+      }
+      .slide-up {
+        animation: slideUp 0.5s ease forwards;
+      }
+      .slide-in {
+        animation: slideIn 0.5s ease forwards;
+      }
+      .pulse {
+        animation: pulse 3s infinite;
+      }
+      .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(31, 38, 135, 0.2);
+      }
+      .scale-hover {
+        transition: transform 0.2s ease;
+      }
+      .scale-hover:active {
+        transform: scale(0.95);
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      .gradient-text {
+        background: linear-gradient(90deg, #0071e3, #6366f1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+  </style>
 </head>
+<body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 min-h-screen text-white overflow-x-hidden font-sans">
+  <!-- 背景装饰 -->
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-[-300px] left-[-100px] w-[600px] h-[600px] rounded-full bg-primary/20 blur-[150px] pulse"></div>
+    <div class="absolute bottom-[-200px] right-[-150px] w-[500px] h-[500px] rounded-full bg-secondary/20 blur-[120px] pulse" style="animation-delay: 1.5s;"></div>
+  </div>
 
-<body>
-    <H1>Hi Furry</H1>
-<img src="微信图片_20251005110023_1_8.jpg" alt="">
-<img src="微信图片_20251005110025_2_8.jpg" alt="">
-<img src="微信图片_20251005110026_3_8.jpg" alt="">
-<img src="微信图片_20251005110029_4_8.jpg" alt="">
-<img src="微信图片_20251005110030_5_8.jpg" alt="">
-<img src="微信图片_20251005110032_6_8.jpg" alt="">
-<img src="微信图片_20251005114241_7_8.jpg" alt="">
-<img src="微信图片_20251005114249_8_8.jpg" alt="">
-<img src="微信图片_20251005114259_9_8.jpg" alt="">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 liquid-transition py-4 px-6" id="mainNav">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+          <i class="fa fa-comments text-white text-xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold gradient-text">Glass<span class="text-white">Circle</span></h1>
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#" class="liquid-transition hover:text-primary relative group font-medium">
+          首页
+          <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary liquid-transition group-hover:w-full"></span>
+        </a>
+        <a href="#" class="liquid-transition hover:text-primary relative group font-medium">
+          发现
+          <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary liquid-transition group-hover:w-full"></span>
+        </a>
+        <a href="#" class="liquid-transition hover:text-primary relative group font-medium">
+          消息
+          <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary liquid-transition group-hover:w-full"></span>
+        </a>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <button id="themeToggle" class="w-10 h-10 rounded-full glass flex items-center justify-center liquid-transition hover:bg-primary/20 scale-hover">
+          <i class="fa fa-moon-o"></i>
+        </button>
+        <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-full glass flex items-center justify-center liquid-transition hover:bg-primary/20 scale-hover">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 移动端菜单 -->
+    <div id="mobileMenu" class="hidden md:hidden mt-4 glass rounded-xl p-4 mx-6 liquid-transition slide-up">
+      <div class="flex flex-col space-y-4">
+        <a href="#" class="liquid-transition hover:text-primary py-2 px-3 rounded-lg hover:bg-white/5">首页</a>
+        <a href="#" class="liquid-transition hover:text-primary py-2 px-3 rounded-lg hover:bg-white/5">发现</a>
+        <a href="#" class="liquid-transition hover:text-primary py-2 px-3 rounded-lg hover:bg-white/5">消息</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 登录/注册面板 -->
+  <main id="authInterface" class="max-w-7xl mx-auto pt-28 pb-20 px-6 relative z-10">
+    <div class="flex flex-col lg:flex-row gap-12 items-center">
+      <!-- 左侧介绍 -->
+      <div class="lg:w-1/2 space-y-8 slide-up">
+        <div class="space-y-6">
+          <h2 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight text-shadow">
+            分享生活的<span class="gradient-text">液态社交圈</span>
+          </h2>
+          <p class="text-gray-300 text-lg max-w-xl">
+            简洁优雅的社交平台，只需用户名和密码即可加入，随时随地分享生活瞬间，与好友畅快交流。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass rounded-xl p-5 liquid-transition hover-lift">
+            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mb-3">
+              <i class="fa fa-share-alt text-primary"></i>
+            </div>
+            <h3 class="font-semibold">分享动态</h3>
+            <p class="text-sm text-gray-300 mt-1">发布生活瞬间，记录美好时刻</p>
+          </div>
+          
+          <div class="glass rounded-xl p-5 liquid-transition hover-lift">
+            <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center mb-3">
+              <i class="fa fa-comments text-secondary"></i>
+            </div>
+            <h3 class="font-semibold">实时聊天</h3>
+            <p class="text-sm text-gray-300 mt-1">与好友即时交流，畅所欲言</p>
+          </div>
+          
+          <div class="glass rounded-xl p-5 liquid-transition hover-lift">
+            <div class="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center mb-3">
+              <i class="fa fa-sync text-success"></i>
+            </div>
+            <h3 class="font-semibold">多端同步</h3>
+            <p class="text-sm text-gray-300 mt-1">聊天记录自动同步，随时随地查看</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 右侧表单 -->
+      <div class="lg:w-1/2 w-full max-w-md glass rounded-2xl p-8 liquid-transition fade-in">
+        <!-- 登录表单 -->
+        <div id="loginForm" class="space-y-6">
+          <div class="text-center space-y-2">
+            <h3 class="text-2xl font-bold">欢迎回来</h3>
+            <p class="text-gray-300">请登录你的账号</p>
+          </div>
+          
+          <div class="space-y-5">
+            <div>
+              <label for="loginUsername" class="block text-sm font-medium text-gray-300 mb-1">用户名</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa fa-user text-gray-400"></i>
+                </div>
+                <input type="text" id="loginUsername" class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition" placeholder="输入用户名">
+              </div>
+            </div>
+            
+            <div>
+              <label for="loginPassword" class="block text-sm font-medium text-gray-300 mb-1">密码</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa fa-lock text-gray-400"></i>
+                </div>
+                <input type="password" id="loginPassword" class="w-full pl-10 pr-10 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition" placeholder="输入密码">
+                <button id="toggleLoginPwd" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 liquid-transition hover:text-white scale-hover">
+                  <i class="fa fa-eye-slash"></i>
+                </button>
+              </div>
+            </div>
+            
+            <button id="loginBtn" class="w-full bg-gradient-to-r from-primary to-secondary py-3 rounded-xl font-medium liquid-transition hover:shadow-lg hover:shadow-primary/20 active:scale-98 flex items-center justify-center scale-hover">
+              <span>登录</span>
+              <i class="fa fa-arrow-right ml-2"></i>
+            </button>
+          </div>
+          
+          <div class="relative my-4">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-slate-700"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-transparent text-gray-400">或者</span>
+            </div>
+          </div>
+          
+          <button id="switchToReg" class="w-full py-3 rounded-xl font-medium border border-slate-700 liquid-transition hover:bg-white/5 active:scale-98 scale-hover">
+            没有账号? 注册
+          </button>
+        </div>
+        
+        <!-- 注册表单 -->
+        <div id="registerForm" class="space-y-6 hidden">
+          <div class="text-center space-y-2">
+            <h3 class="text-2xl font-bold">创建账号</h3>
+            <p class="text-gray-300">快速注册，加入社交圈</p>
+          </div>
+          
+          <div class="space-y-5">
+            <div>
+              <label for="regUsername" class="block text-sm font-medium text-gray-300 mb-1">用户名</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa fa-user text-gray-400"></i>
+                </div>
+                <input type="text" id="regUsername" class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition" placeholder="设置用户名">
+                <div id="usernameError" class="hidden absolute -bottom-5 left-0 text-sm text-danger">
+                  <i class="fa fa-exclamation-circle mr-1"></i>
+                  <span>用户名已存在</span>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label for="regPassword" class="block text-sm font-medium text-gray-300 mb-1">密码</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa fa-lock text-gray-400"></i>
+                </div>
+                <input type="password" id="regPassword" class="w-full pl-10 pr-10 py-3 rounded-xl bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition" placeholder="至少8位字符">
+                <button id="toggleRegPwd" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 liquid-transition hover:text-white scale-hover">
+                  <i class="fa fa-eye-slash"></i>
+                </button>
+              </div>
+            </div>
+            
+            <button id="registerBtn" class="w-full bg-gradient-to-r from-primary to-secondary py-3 rounded-xl font-medium liquid-transition hover:shadow-lg hover:shadow-primary/20 active:scale-98 flex items-center justify-center scale-hover">
+              <span>完成注册</span>
+              <i class="fa fa-user-plus ml-2"></i>
+            </button>
+          </div>
+          
+          <div class="relative my-4">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-slate-700"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-transparent text-gray-400">或者</span>
+            </div>
+          </div>
+          
+          <button id="switchToLogin" class="w-full py-3 rounded-xl font-medium border border-slate-700 liquid-transition hover:bg-white/5 active:scale-98 scale-hover">
+            已有账号? 登录
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 主社交界面 -->
+  <div id="socialInterface" class="fixed inset-0 z-50 hidden fade-in">
+    <!-- 顶部导航 -->
+    <div class="glass-dark h-16 flex items-center justify-between px-6 border-b border-slate-800">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+          <i class="fa fa-comments text-white text-xl"></i>
+        </div>
+        <h1 class="text-xl font-bold gradient-text">Glass<span class="text-white">Circle</span></h1>
+      </div>
+      
+      <div class="flex items-center space-x-6">
+        <div class="relative">
+          <button class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 relative scale-hover">
+            <i class="fa fa-bell"></i>
+            <span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+          </button>
+        </div>
+        
+        <div class="relative group">
+          <img src="https://picsum.photos/id/64/100/100" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-primary cursor-pointer liquid-transition hover:scale-110" id="userAvatar">
+          <div class="absolute right-0 mt-2 w-48 glass-dark rounded-xl p-3 hidden group-hover:block liquid-transition z-10 slide-up">
+            <div class="flex flex-col space-y-3">
+              <a href="#" class="flex items-center space-x-2 py-1 px-2 liquid-transition hover:bg-white/10 rounded-lg">
+                <i class="fa fa-user w-5 text-center"></i>
+                <span>个人资料</span>
+              </a>
+              <a href="#" class="flex items-center space-x-2 py-1 px-2 liquid-transition hover:bg-white/10 rounded-lg">
+                <i class="fa fa-cog w-5 text-center"></i>
+                <span>设置</span>
+              </a>
+              <div class="border-t border-slate-700"></div>
+              <a href="#" id="logoutBtn" class="flex items-center space-x-2 py-1 px-2 liquid-transition hover:bg-white/10 rounded-lg text-danger">
+                <i class="fa fa-sign-out w-5 text-center"></i>
+                <span>退出登录</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <div class="h-[calc(100%-64px)] flex overflow-hidden">
+      <!-- 左侧边栏 -->
+      <div class="w-64 glass-dark border-r border-slate-800 hidden md:block overflow-y-auto scrollbar-hide">
+        <div class="p-4">
+          <div class="relative">
+            <input type="text" placeholder="搜索好友或动态..." class="w-full pl-10 pr-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition text-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fa fa-search text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-4 border-t border-slate-800">
+          <h3 class="font-semibold text-gray-300 mb-3">导航</h3>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-primary/10 text-primary liquid-transition">
+                <i class="fa fa-home w-5 text-center"></i>
+                <span>首页</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition">
+                <i class="fa fa-compass w-5 text-center"></i>
+                <span>发现</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition">
+                <i class="fa fa-clock-o w-5 text-center"></i>
+                <span>历史</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition">
+                <i class="fa fa-bookmark w-5 text-center"></i>
+                <span>收藏</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="p-4 border-t border-slate-800">
+          <h3 class="font-semibold text-gray-300 mb-3">好友</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition group">
+                <img src="https://picsum.photos/id/237/100/100" alt="好友头像" class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-primary liquid-transition">
+                <span>张三</span>
+                <span class="ml-auto w-2 h-2 rounded-full bg-success"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition group">
+                <img src="https://picsum.photos/id/1027/100/100" alt="好友头像" class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-primary liquid-transition">
+                <span>李四</span>
+                <span class="ml-auto w-2 h-2 rounded-full bg-success"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition group">
+                <img src="https://picsum.photos/id/1012/100/100" alt="好友头像" class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-primary liquid-transition">
+                <span>王五</span>
+                <span class="ml-auto w-2 h-2 rounded-full bg-gray-500"></span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-white/5 liquid-transition group">
+                <img src="https://picsum.photos/id/1005/100/100" alt="好友头像" class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-primary liquid-transition">
+                <span>赵六</span>
+                <span class="ml-auto w-2 h-2 rounded-full bg-success"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- 中间内容区 -->
+      <div class="flex-1 overflow-y-auto p-6 scrollbar-hide">
+        <!-- 发布动态区域 -->
+        <div class="glass-dark rounded-xl p-6 mb-8 liquid-transition hover:shadow-lg hover:shadow-primary/5">
+          <div class="flex space-x-4">
+            <img src="https://picsum.photos/id/64/100/100" alt="用户头像" class="w-10 h-10 rounded-full">
+            <div class="flex-1">
+              <textarea placeholder="分享你的想法..." class="w-full bg-slate-800/50 border border-slate-700 rounded-lg p-3 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition resize-none h-20"></textarea>
+              <div class="flex justify-between items-center mt-4">
+                <div class="flex space-x-4">
+                  <button class="flex items-center space-x-1 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                    <i class="fa fa-image"></i>
+                    <span class="text-sm">图片</span>
+                  </button>
+                  <button class="flex items-center space-x-1 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                    <i class="fa fa-video-camera"></i>
+                    <span class="text-sm">视频</span>
+                  </button>
+                  <button class="flex items-center space-x-1 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                    <i class="fa fa-smile-o"></i>
+                    <span class="text-sm">表情</span>
+                  </button>
+                </div>
+                <button class="px-4 py-2 bg-gradient-to-r from-primary to-secondary rounded-lg font-medium liquid-transition hover:shadow-lg hover:shadow-primary/20 scale-hover">
+                  发布
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 动态列表 -->
+        <div class="space-y-6">
+          <!-- 动态1 -->
+          <div class="glass-dark rounded-xl overflow-hidden liquid-transition hover:shadow-lg hover:shadow-primary/5 slide-up" style="animation-delay: 0.1s;">
+            <div class="p-6">
+              <div class="flex items-start space-x-4">
+                <img src="https://picsum.photos/id/237/100/100" alt="好友头像" class="w-10 h-10 rounded-full">
+                <div class="flex-1">
+                  <div class="flex justify-between">
+                    <div>
+                      <h3 class="font-semibold">张三</h3>
+                      <p class="text-sm text-gray-400">今天 10:23</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-white liquid-transition scale-hover">
+                      <i class="fa fa-ellipsis-h"></i>
+                    </button>
+                  </div>
+                  <p class="mt-3">今天天气真好，出去走走，发现了一处特别美的风景！#生活 #美景</p>
+                  <div class="mt-4 rounded-xl overflow-hidden">
+                    <img src="https://picsum.photos/id/10/800/500" alt="动态图片" class="w-full h-auto liquid-transition hover:scale-105">
+                  </div>
+                  <div class="flex justify-between mt-4 pt-4 border-t border-slate-800">
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-heart-o"></i>
+                      <span>24</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-comment-o"></i>
+                      <span>8</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-share"></i>
+                      <span>分享</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 评论区 -->
+              <div class="mt-4 pl-14 space-y-4">
+                <div class="flex items-start space-x-3">
+                  <img src="https://picsum.photos/id/1027/100/100" alt="评论者头像" class="w-8 h-8 rounded-full">
+                  <div class="flex-1 glass rounded-lg p-3">
+                    <h4 class="font-medium text-sm">李四</h4>
+                    <p class="text-sm mt-1">这是哪里呀？看起来真不错！</p>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <img src="https://picsum.photos/id/237/100/100" alt="评论者头像" class="w-8 h-8 rounded-full">
+                  <div class="flex-1 glass rounded-lg p-3">
+                    <h4 class="font-medium text-sm">张三</h4>
+                    <p class="text-sm mt-1">在城市公园那边，周末可以去看看</p>
+                  </div>
+                </div>
+                
+                <!-- 评论输入框 -->
+                <div class="flex items-center space-x-3">
+                  <img src="https://picsum.photos/id/64/100/100" alt="用户头像" class="w-8 h-8 rounded-full">
+                  <div class="flex-1 relative">
+                    <input type="text" placeholder="发表评论..." class="w-full pl-4 pr-10 py-2 rounded-full bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition text-sm">
+                    <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-primary scale-hover">
+                      <i class="fa fa-paper-plane-o"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 动态2 -->
+          <div class="glass-dark rounded-xl overflow-hidden liquid-transition hover:shadow-lg hover:shadow-primary/5 slide-up" style="animation-delay: 0.2s;">
+            <div class="p-6">
+              <div class="flex items-start space-x-4">
+                <img src="https://picsum.photos/id/1027/100/100" alt="好友头像" class="w-10 h-10 rounded-full">
+                <div class="flex-1">
+                  <div class="flex justify-between">
+                    <div>
+                      <h3 class="font-semibold">李四</h3>
+                      <p class="text-sm text-gray-400">昨天 18:45</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-white liquid-transition scale-hover">
+                      <i class="fa fa-ellipsis-h"></i>
+                    </button>
+                  </div>
+                  <p class="mt-3">新做的晚餐，第一次尝试做意大利面，味道还不错！#美食 #厨艺</p>
+                  <div class="mt-4 grid grid-cols-2 gap-2 rounded-xl overflow-hidden">
+                    <img src="https://picsum.photos/id/292/400/300" alt="动态图片" class="w-full h-auto liquid-transition hover:scale-105">
+                    <img src="https://picsum.photos/id/431/400/300" alt="动态图片" class="w-full h-auto liquid-transition hover:scale-105">
+                  </div>
+                  <div class="flex justify-between mt-4 pt-4 border-t border-slate-800">
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-heart-o"></i>
+                      <span>42</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-comment-o"></i>
+                      <span>15</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-share"></i>
+                      <span>分享</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 动态3 -->
+          <div class="glass-dark rounded-xl overflow-hidden liquid-transition hover:shadow-lg hover:shadow-primary/5 slide-up" style="animation-delay: 0.3s;">
+            <div class="p-6">
+              <div class="flex items-start space-x-4">
+                <img src="https://picsum.photos/id/1005/100/100" alt="好友头像" class="w-10 h-10 rounded-full">
+                <div class="flex-1">
+                  <div class="flex justify-between">
+                    <div>
+                      <h3 class="font-semibold">赵六</h3>
+                      <p class="text-sm text-gray-400">3天前</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-white liquid-transition scale-hover">
+                      <i class="fa fa-ellipsis-h"></i>
+                    </button>
+                  </div>
+                  <p class="mt-3">刚看完这场电影，剧情太精彩了，强烈推荐给大家！</p>
+                  <div class="mt-4 rounded-xl overflow-hidden">
+                    <img src="https://picsum.photos/id/96/800/450" alt="动态图片" class="w-full h-auto liquid-transition hover:scale-105">
+                  </div>
+                  <div class="flex justify-between mt-4 pt-4 border-t border-slate-800">
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-heart-o"></i>
+                      <span>56</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-comment-o"></i>
+                      <span>23</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-gray-400 hover:text-primary liquid-transition scale-hover">
+                      <i class="fa fa-share"></i>
+                      <span>分享</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 加载更多 -->
+        <div class="mt-8 text-center">
+          <button id="loadMore" class="px-6 py-3 glass-dark rounded-lg font-medium liquid-transition hover:bg-white/5 scale-hover">
+            <i class="fa fa-refresh mr-2"></i>
+            加载更多
+          </button>
+        </div>
+      </div>
+      
+      <!-- 右侧边栏 -->
+      <div class="w-80 glass-dark border-l border-slate-800 hidden lg:block overflow-y-auto scrollbar-hide">
+        <!-- 个人信息卡片 -->
+        <div class="p-6 border-b border-slate-800">
+          <div class="flex flex-col items-center">
+            <div class="relative">
+              <img src="https://picsum.photos/id/64/200/200" alt="用户头像" class="w-20 h-20 rounded-full border-4 border-primary">
+              <button class="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white liquid-transition hover:bg-primary/80 scale-hover">
+                <i class="fa fa-camera text-xs"></i>
+              </button>
+            </div>
+            <h3 class="font-bold mt-4 text-lg" id="currentUsername">用户名</h3>
+            <p class="text-sm text-gray-400 mt-1">分享生活的美好瞬间</p>
+            <div class="flex justify-center space-x-6 mt-4">
+              <div class="text-center">
+                <p class="font-bold">24</p>
+                <p class="text-xs text-gray-400">动态</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold">128</p>
+                <p class="text-xs text-gray-400">关注</p>
+              </div>
+              <div class="text-center">
+                <p class="font-bold">96</p>
+                <p class="text-xs text-gray-400">粉丝</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 推荐关注 -->
+        <div class="p-6 border-b border-slate-800">
+          <h3 class="font-semibold mb-4">推荐关注</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://picsum.photos/id/1010/100/100" alt="推荐用户" class="w-10 h-10 rounded-full">
+                <div>
+                  <h4 class="font-medium">孙七</h4>
+                  <p class="text-xs text-gray-400">设计师</p>
+                </div>
+              </div>
+              <button class="px-3 py-1 rounded-full bg-primary/20 text-primary text-sm liquid-transition hover:bg-primary/30 scale-hover">
+                关注
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://picsum.photos/id/1014/100/100" alt="推荐用户" class="w-10 h-10 rounded-full">
+                <div>
+                  <h4 class="font-medium">周八</h4>
+                  <p class="text-xs text-gray-400">摄影师</p>
+                </div>
+              </div>
+              <button class="px-3 py-1 rounded-full bg-primary/20 text-primary text-sm liquid-transition hover:bg-primary/30 scale-hover">
+                关注
+              </button>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <img src="https://picsum.photos/id/1019/100/100" alt="推荐用户" class="w-10 h-10 rounded-full">
+                <div>
+                  <h4 class="font-medium">吴九</h4>
+                  <p class="text-xs text-gray-400">程序员</p>
+                </div>
+              </div>
+              <button class="px-3 py-1 rounded-full bg-primary/20 text-primary text-sm liquid-transition hover:bg-primary/30 scale-hover">
+                关注
+              </button>
+            </div>
+          </div>
+          <button class="w-full mt-4 text-primary text-sm liquid-transition hover:underline">
+            查看更多
+          </button>
+        </div>
+        
+        <!-- 热门话题 -->
+        <div class="p-6">
+          <h3 class="font-semibold mb-4">热门话题</h3>
+          <div class="space-y-4">
+            <div class="glass rounded-xl p-4 liquid-transition hover:bg-white/5">
+              <p class="text-xs text-gray-400">#旅行</p>
+              <p class="font-medium mt-1">分享你的旅行故事和美景</p>
+              <p class="text-xs text-gray-400 mt-2">1.2k 帖子</p>
+            </div>
+            <div class="glass rounded-xl p-4 liquid-transition hover:bg-white/5">
+              <p class="text-xs text-gray-400">#美食</p>
+              <p class="font-medium mt-1">发现身边的美食和菜谱</p>
+              <p class="text-xs text-gray-400 mt-2">3.5k 帖子</p>
+            </div>
+            <div class="glass rounded-xl p-4 liquid-transition hover:bg-white/5">
+              <p class="text-xs text-gray-400">#电影</p>
+              <p class="font-medium mt-1">最新电影评论和推荐</p>
+              <p class="text-xs text-gray-400 mt-2">2.8k 帖子</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 移动端底部导航 -->
+    <div class="lg:hidden glass-dark h-16 flex items-center justify-around border-t border-slate-800 fixed bottom-0 left-0 right-0 z-40">
+      <a href="#" class="flex flex-col items-center justify-center text-primary liquid-transition">
+        <i class="fa fa-home text-xl"></i>
+        <span class="text-xs mt-1">首页</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary liquid-transition">
+        <i class="fa fa-compass text-xl"></i>
+        <span class="text-xs mt-1">发现</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary liquid-transition">
+        <i class="fa fa-plus-circle text-2xl"></i>
+        <span class="text-xs mt-1">发布</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary liquid-transition">
+        <i class="fa fa-bell text-xl"></i>
+        <span class="text-xs mt-1">通知</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center text-gray-400 hover:text-primary liquid-transition">
+        <i class="fa fa-user text-xl"></i>
+        <span class="text-xs mt-1">我的</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 聊天界面 -->
+  <div id="chatInterface" class="fixed inset-0 z-50 hidden glass-dark">
+    <div class="h-full flex flex-col">
+      <!-- 聊天头部 -->
+      <div class="h-16 flex items-center justify-between px-6 border-b border-slate-800">
+        <div class="flex items-center space-x-4">
+          <button id="backToSocial" class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 scale-hover">
+            <i class="fa fa-arrow-left"></i>
+          </button>
+          <div class="flex items-center space-x-3">
+            <img src="https://picsum.photos/id/237/100/100" alt="聊天对象" class="w-10 h-10 rounded-full">
+            <div>
+              <h3 class="font-semibold">张三</h3>
+              <p class="text-xs text-success">在线</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 scale-hover">
+            <i class="fa fa-phone"></i>
+          </button>
+          <button class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 scale-hover">
+            <i class="fa fa-video-camera"></i>
+          </button>
+          <button class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 scale-hover">
+            <i class="fa fa-ellipsis-v"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- 聊天内容区 -->
+      <div class="flex-1 p-6 overflow-y-auto scrollbar-hide" id="chatMessages">
+        <div class="flex justify-center my-4">
+          <span class="text-xs bg-slate-800 px-3 py-1 rounded-full">今天 10:30</span>
+        </div>
+        
+        <div class="flex items-end mb-4 slide-in">
+          <img src="https://picsum.photos/id/237/100/100" alt="对方头像" class="w-8 h-8 rounded-full mr-2">
+          <div class="max-w-[70%]">
+            <div class="glass rounded-t-xl rounded-br-xl p-3">
+              <p>嗨，早上好！你看到我昨天发的动态了吗？</p>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 ml-3">10:32</p>
+          </div>
+        </div>
+        
+        <div class="flex items-end justify-end mb-4 slide-in" style="animation-delay: 0.1s;">
+          <div class="max-w-[70%]">
+            <div class="bg-gradient-to-r from-primary to-secondary rounded-t-xl rounded-bl-xl p-3">
+              <p>看到了，风景真不错！那是在哪里呀？</p>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 mr-3 text-right">10:35</p>
+          </div>
+          <img src="https://picsum.photos/id/64/100/100" alt="我的头像" class="w-8 h-8 rounded-full ml-2">
+        </div>
+        
+        <div class="flex items-end mb-4 slide-in" style="animation-delay: 0.2s;">
+          <img src="https://picsum.photos/id/237/100/100" alt="对方头像" class="w-8 h-8 rounded-full mr-2">
+          <div class="max-w-[70%]">
+            <div class="glass rounded-t-xl rounded-br-xl p-3">
+              <p>在城市公园那边，周末我们可以一起去看看，那里的花开得正盛</p>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 ml-3">10:38</p>
+          </div>
+        </div>
+        
+        <div class="flex items-end justify-end mb-4 slide-in" style="animation-delay: 0.3s;">
+          <div class="max-w-[70%]">
+            <div class="bg-gradient-to-r from-primary to-secondary rounded-t-xl rounded-bl-xl p-3">
+              <p>好啊，周末几点合适？</p>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 mr-3 text-right">10:40</p>
+          </div>
+          <img src="https://picsum.photos/id/64/100/100" alt="我的头像" class="w-8 h-8 rounded-full ml-2">
+        </div>
+        
+        <div class="flex items-end mb-4 slide-in" style="animation-delay: 0.4s;">
+          <img src="https://picsum.photos/id/237/100/100" alt="对方头像" class="w-8 h-8 rounded-full mr-2">
+          <div class="max-w-[70%]">
+            <div class="glass rounded-t-xl rounded-br-xl p-3">
+              <p>上午10点怎么样？我可以先去占个好位置</p>
+            </div>
+            <p class="text-xs text-gray-400 mt-1 ml-3">10:42</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 聊天输入区 -->
+      <div class="p-4 border-t border-slate-800">
+        <div class="flex items-center space-x-3">
+          <button class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 scale-hover">
+            <i class="fa fa-smile-o text-gray-400"></i>
+          </button>
+          <button class="w-10 h-10 rounded-full glass-dark flex items-center justify-center liquid-transition hover:bg-white/10 scale-hover">
+            <i class="fa fa-paperclip text-gray-400"></i>
+          </button>
+          <div class="flex-1 relative">
+            <input type="text" id="chatInput" placeholder="输入消息..." class="w-full pl-4 pr-4 py-3 rounded-full bg-slate-800/50 border border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none liquid-transition">
+          </div>
+          <button id="sendMessage" class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center liquid-transition hover:shadow-lg hover:shadow-primary/20 scale-hover">
+            <i class="fa fa-paper-plane-o"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知提示 -->
+  <div id="notification" class="fixed top-20 right-6 glass rounded-xl p-4 max-w-xs transform translate-x-full opacity-0 liquid-transition z-50 flex items-start space-x-3">
+    <div id="notifyIcon" class="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center text-success mt-0.5 flex-shrink-0">
+      <i class="fa fa-check"></i>
+    </div>
+    <div>
+      <h4 id="notifyTitle" class="font-medium">操作成功</h4>
+      <p id="notifyMessage" class="text-sm text-gray-300 mt-1">登录成功</p>
+    </div>
+    <button id="closeNotify" class="text-gray-400 hover:text-white liquid-transition scale-hover">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // DOM元素获取
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const switchToReg = document.getElementById('switchToReg');
+      const switchToLogin = document.getElementById('switchToLogin');
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const toggleLoginPwd = document.getElementById('toggleLoginPwd');
+      const toggleRegPwd = document.getElementById('toggleRegPwd');
+      const loginPassword = document.getElementById('loginPassword');
+      const regPassword = document.getElementById('regPassword');
+      const loginBtn = document.getElementById('loginBtn');
+      const registerBtn = document.getElementById('registerBtn');
+      const authInterface = document.getElementById('authInterface');
+      const socialInterface = document.getElementById('socialInterface');
+      const chatInterface = document.getElementById('chatInterface');
+      const backToSocial = document.getElementById('backToSocial');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const loadMore = document.getElementById('loadMore');
+      const sendMessage = document.getElementById('sendMessage');
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+      const currentUsername = document.getElementById('currentUsername');
+      const notification = document.getElementById('notification');
+      const notifyTitle = document.getElementById('notifyTitle');
+      const notifyMessage = document.getElementById('notifyMessage');
+      const notifyIcon = document.getElementById('notifyIcon');
+      const closeNotify = document.getElementById('closeNotify');
+      const usernameError = document.getElementById('usernameError');
+      const mainNav = document.getElementById('mainNav');
+
+      // 存储用户数据（模拟本地存储）
+      let users = JSON.parse(localStorage.getItem('glassCircleUsers')) || [];
+      let currentUser = JSON.parse(localStorage.getItem('glassCircleCurrentUser')) || null;
+      let messages = JSON.parse(localStorage.getItem('glassCircleMessages')) || [];
+
+      // 移动端菜单切换
+      mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // 表单切换
+      switchToReg.addEventListener('click', function() {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        registerForm.classList.add('slide-up');
+      });
+
+      switchToLogin.addEventListener('click', function() {
+        registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        loginForm.classList.add('slide-up');
+        usernameError.classList.add('hidden');
+      });
+
+      // 密码显示切换
+      toggleLoginPwd.addEventListener('click', function() {
+        const type = loginPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        loginPassword.setAttribute('type', type);
+        toggleLoginPwd.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+      });
+
+      toggleRegPwd.addEventListener('click', function() {
+        const type = regPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        regPassword.setAttribute('type', type);
+        toggleRegPwd.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+      });
+
+      // 登录功能
+      loginBtn.addEventListener('click', function() {
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        
+        if (!username || !password) {
+          showNotification('错误', '请输入用户名和密码', 'error');
+          return;
+        }
+        
+        // 查找用户
+        const user = users.find(u => u.username === username && u.password === password);
+        
+        if (user) {
+          loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+          setTimeout(function() {
+            currentUser = user;
+            localStorage.setItem('glassCircleCurrentUser', JSON.stringify(currentUser));
+            loginBtn.innerHTML = '<span>登录</span><i class="fa fa-arrow-right ml-2"></i>';
+            authInterface.classList.add('hidden');
+            socialInterface.classList.remove('hidden');
+            currentUsername.textContent = username;
+            showNotification('登录成功', `欢迎回来，${username}`, 'success');
+          }, 1000);
+        } else {
+          showNotification('错误', '用户名或密码不正确', 'error');
+        }
+      });
+
+      // 注册功能
+      registerBtn.addEventListener('click', function() {
+        const username = document.getElementById('regUsername').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+        
+        if (!username || !password) {
+          showNotification('错误', '请填写用户名和密码', 'error');
+          return;
+        }
+        
+        if (password.length < 8) {
+          showNotification('错误', '密码长度至少8位', 'error');
+          return;
+        }
+        
+        // 检查用户名是否已存在
+        if (users.some(u => u.username === username)) {
+          usernameError.classList.remove('hidden');
+          return;
+        }
+        
+        usernameError.classList.add('hidden');
+        
+        // 创建新用户
+        registerBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+        setTimeout(function() {
+          const newUser = {
+            username: username,
+            password: password,
+            avatar: `https://picsum.photos/id/${Math.floor(Math.random() * 100)}/100/100`
+          };
+          
+          users.push(newUser);
+          localStorage.setItem('glassCircleUsers', JSON.stringify(users));
+          
+          registerBtn.innerHTML = '<span>完成注册</span><i class="fa fa-user-plus ml-2"></i>';
+          registerForm.classList.add('hidden');
+          loginForm.classList.remove('hidden');
+          document.getElementById('loginUsername').value = username;
+          showNotification('注册成功', '请使用账号密码登录', 'success');
+        }, 1000);
+      });
+
+      // 退出登录
+      logoutBtn.addEventListener('click', function() {
+        socialInterface.classList.add('hidden');
+        chatInterface.classList.add('hidden');
+        authInterface.classList.remove('hidden');
+        currentUser = null;
+        localStorage.removeItem('glassCircleCurrentUser');
+        showNotification('已退出', '您已成功退出登录', 'info');
+      });
+
+      // 加载更多动态
+      loadMore.addEventListener('click', function() {
+        this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i>加载中...';
+        
+        setTimeout(() => {
+          // 复制最后一条动态并修改内容，模拟加载更多
+          const lastPost = document.querySelector('.glass-dark.rounded-xl.overflow-hidden:not(#chatInterface)');
+          const newPost = lastPost.cloneNode(true);
+          newPost.querySelector('p').textContent = '刚刚加载的新动态，这是一条模拟的内容 #新内容';
+          newPost.querySelector('.text-gray-400').textContent = '刚刚';
+          newPost.classList.remove('slide-up');
+          newPost.classList.add('slide-up');
+          lastPost.parentNode.appendChild(newPost);
+          
+          this.innerHTML = '<i class="fa fa-refresh mr-2"></i>加载更多';
+          showNotification('加载成功', '已加载更多动态', 'success');
+        }, 1500);
+      });
+
+      // 点击好友进入聊天界面
+      document.querySelectorAll('.glass-dark .flex.items-center.space-x-3.px-3.py-2').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          socialInterface.classList.add('hidden');
+          chatInterface.classList.remove('hidden');
+          // 滚动到最新消息
+          setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }, 100);
+        });
+      });
+
+      // 返回社交界面
+      backToSocial.addEventListener('click', function() {
+        chatInterface.classList.add('hidden');
+        socialInterface.classList.remove('hidden');
+      });
+
+      // 发送消息
+      sendMessage.addEventListener('click', function() {
+        sendChatMessage();
+      });
+
+      // 回车发送消息
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendChatMessage();
+        }
+      });
+
+      function sendChatMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+        
+        // 创建消息元素
+        const messageHTML = `
+          <div class="flex items-end justify-end mb-4 slide-in">
+            <div class="max-w-[70%]">
+              <div class="bg-gradient-to-r from-primary to-secondary rounded-t-xl rounded-bl-xl p-3">
+                <p>${message}</p>
+              </div>
+              <p class="text-xs text-gray-400 mt-1 mr-3 text-right">${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')}</p>
+            </div>
+            <img src="https://picsum.photos/id/64/100/100" alt="我的头像" class="w-8 h-8 rounded-full ml-2">
+          </div>
+        `;
+        
+        chatMessages.insertAdjacentHTML('beforeend', messageHTML);
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // 模拟回复
+        setTimeout(() => {
+          const replies = [
+            "好的，我知道了",
+            "太棒了！",
+            "我稍后回复你",
+            "这个想法不错",
+            "我同意你的观点"
+          ];
+          const randomReply = replies[Math.floor(Math.random() * replies.length)];
+          
+          const replyHTML = `
+            <div class="flex items-end mb-4 slide-in">
+              <img src="https://picsum.photos/id/237/100/100" alt="对方头像" class="w-8 h-8 rounded-full mr-2">
+              <div class="max-w-[70%]">
+                <div class="glass rounded-t-xl rounded-br-xl p-3">
+                  <p>${randomReply}</p>
+                </div>
+                <p class="text-xs text-gray-400 mt-1 ml-3">${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2, '0')}</p>
+              </div>
+            </div>
+          `;
+          
+          chatMessages.insertAdjacentHTML('beforeend', replyHTML);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          
+          // 保存消息到本地存储（模拟多设备同步）
+          messages.push({
+            sender: currentUser ? currentUser.username : 'Guest',
+            receiver: '张三',
+            content: message,
+            time: new Date().toISOString()
+          });
+          messages.push({
+            sender: '张三',
+            receiver: currentUser ? currentUser.username : 'Guest',
+            content: randomReply,
+            time: new Date().toISOString()
+          });
+          localStorage.setItem('glassCircleMessages', JSON.stringify(messages));
+        }, 1000);
+      }
+
+      // 通知功能
+      function showNotification(title, message, type = 'info') {
+        notifyTitle.textContent = title;
+        notifyMessage.textContent = message;
+        
+        if (type === 'success') {
+          notifyIcon.className = 'w-8 h-8 rounded-full bg-success/20 flex items-center justify-center text-success mt-0.5 flex-shrink-0';
+          notifyIcon.innerHTML = '<i class="fa fa-check"></i>';
+        } else if (type === 'error') {
+          notifyIcon.className = 'w-8 h-8 rounded-full bg-danger/20 flex items-center justify-center text-danger mt-0.5 flex-shrink-0';
+          notifyIcon.innerHTML = '<i class="fa fa-times"></i>';
+        } else {
+          notifyIcon.className = 'w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary mt-0.5 flex-shrink-0';
+          notifyIcon.innerHTML = '<i class="fa fa-info"></i>';
+        }
+        
+        notification.classList.remove('translate-x-full', 'opacity-0');
+        notification.classList.add('translate-x-0', 'opacity-100');
+        
+        const timer = setTimeout(hideNotification, 3000);
+        
+        closeNotify.onclick = function() {
+          clearTimeout(timer);
+          hideNotification();
+        };
+      }
+
+      function hideNotification() {
+        notification.classList.remove('translate-x-0', 'opacity-100');
+        notification.classList.add('translate-x-full', 'opacity-0');
+      }
+
+      // 滚动时导航栏效果
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 20) {
+          mainNav.classList.add('glass-dark', 'shadow-lg');
+          mainNav.classList.remove('py-4');
+          mainNav.classList.add('py-3');
+        } else {
+          mainNav.classList.remove('glass-dark', 'shadow-lg');
+          mainNav.classList.add('py-4');
+          mainNav.classList.remove('py-3');
+        }
+      });
+
+      // 页面加载时检查是否已登录
+      if (currentUser) {
+        authInterface.classList.add('hidden');
+        socialInterface.classList.remove('hidden');
+        currentUsername.textContent = currentUser.username;
+      }
+    });
+  </script>
 </body>
-
+</html>
